@@ -7,5 +7,5 @@ import lombok.Data;
 @Builder
 public class BodyMassIndexResponse {
 
-    private Integer bodyMassIndex;
+    private Double bodyMassIndex;
 }

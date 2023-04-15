@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 
 @SpringBootApplication(scanBasePackages = {
-		"co.tide.FitnessApp"
+		"com.FitnessApp"
 })
 @Import(AppConfig.class)
 public class Application {

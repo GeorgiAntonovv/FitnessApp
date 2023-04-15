@@ -1,5 +1,7 @@
 package com.FitnessApp.config;
 
+import okhttp3.OkHttpClient;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
@@ -8,8 +10,12 @@ import org.springframework.context.annotation.Import;
  */
 @ComponentScan(basePackages = {})
 @Import({
-        DbConfig.class,
+        DbConfig.class
 })
 public class AppConfig {
 
+    @Bean
+    public OkHttpClient okHttpClient() {
+        return new OkHttpClient();
+    }
 }
