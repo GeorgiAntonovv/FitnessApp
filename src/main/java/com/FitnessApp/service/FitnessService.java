@@ -30,9 +30,7 @@ public class FitnessService {
         try (Response response = client.newCall(request).execute()) {
             Gson gson = new GsonBuilder().create();
             rapidApiBMIResponse = gson.fromJson(response.body().charStream(), RapidApiBMIResponse.class);
-            System.out.println("Response body:" + response.body().string());
         }
-        System.out.println("My result: " + rapidApiBMIResponse.getBmi());
 
         return rapidApiBMIResponse;
     }
