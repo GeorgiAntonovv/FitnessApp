@@ -7,9 +7,9 @@ import lombok.Data;
 @Builder
 public class MacrosData {
 
-    private Double calories;
+    private Double calorie;
     private Balanced balanced;
-    private LowFat lowFat;
+    private LowFat lowfat;
     private LowCarbs lowCarbs;
-    private HighProtein highProtein;
+    private HighProtein highprotein;
 }

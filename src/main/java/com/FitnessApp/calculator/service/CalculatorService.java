@@ -1,4 +1,4 @@
-package com.FitnessApp.service;
+package com.FitnessApp.calculator.service;
 
 import com.FitnessApp.external.model.bmi.RapidApiBMIResponse;
 import com.FitnessApp.external.model.macros.RapidApiMacrosResponse;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class FitnessService {
+public class CalculatorService {
 
     private final OkHttpClient client;
 
@@ -43,7 +43,7 @@ public class FitnessService {
 
         Request request = new Request.Builder()
                 .url(String.format("https://fitness-calculator.p.rapidapi.com/"
-                        + "macrocalculator?age=%s&gender=@s&height=%s&weight=%s&activitylevel=%s&goal=%s",
+                        + "macrocalculator?age=%s&gender=%s&height=%s&weight=%s&activitylevel=%s&goal=%s",
                         age, gender, height, weight, activityLevel, goal))
                 .get()
                 .addHeader("X-RapidAPI-Key", "e6fd97bf6emsh8419606b9e5f71ap1f1af9jsnb726b28bbcce")
@@ -55,7 +55,7 @@ public class FitnessService {
             Gson gson = new GsonBuilder().create();
             rapidApiMacrosResponse = gson.fromJson(response.body().charStream(), RapidApiMacrosResponse.class);
         }
-
+        System.out.println(rapidApiMacrosResponse.getData());
         return rapidApiMacrosResponse;
     }
 }

@@ -4,5 +4,6 @@
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
 <!--  <include file="classpath:liquibase/changelog/202111231001_create_subscription_table.xml" relativeToChangelogFile="false"/>-->
-
+  <include file="classpath:liquibase/changelog/202304201200_create_tables.xml" relativeToChangelogFile="false"/>
+  <include file="classpath:liquibase/changelog/202304201230_create_constraints.xml" relativeToChangelogFile="false"/>
 </databaseChangeLog>

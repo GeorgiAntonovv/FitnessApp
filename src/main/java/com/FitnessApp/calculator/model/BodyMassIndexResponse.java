@@ -1,4 +1,4 @@
-package com.FitnessApp.api.model;
+package com.FitnessApp.calculator.model;
 
 import lombok.Builder;
 import lombok.Data;
