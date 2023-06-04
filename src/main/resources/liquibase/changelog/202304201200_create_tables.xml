@@ -1,0 +1,75 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+  <changeSet id="202304201200" author="Georgi Antonov">
+    <sql dbms="postgresql" splitStatements="true" stripComments="true">
+      <![CDATA[
+            CREATE TABLE IF NOT EXISTS "user"
+            (
+                id UUID PRIMARY KEY,
+                username varchar(255) NOT NULL,
+                password varchar(255) NOT NULL,
+                first_name varchar(255) NOT NULL,
+                last_name varchar(255) NOT NULL,
+                email varchar(255) NOT NULL,
+                created_on TIMESTAMP(3) NOT NULL,
+                updated_on TIMESTAMP(3) NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS meal
+            (
+                id UUID PRIMARY KEY,
+                user_id UUID NOT NULL,
+                created_on TIMESTAMP(3) NOT NULL,
+                updated_on TIMESTAMP(3) NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS food
+            (
+                id UUID PRIMARY KEY,
+                meal_id UUID,
+                food_name varchar,
+                calories INTEGER,
+                protein INTEGER,
+                fats INTEGER,
+                carbs INTEGER,
+                created_on TIMESTAMP(3) NOT NULL,
+                updated_on TIMESTAMP(3) NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS workout
+            (
+                id UUID PRIMARY KEY,
+                user_id UUID NOT NULL,
+                created_on TIMESTAMP(3) NOT NULL,
+                updated_on TIMESTAMP(3) NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS exercise
+            (
+                id UUID PRIMARY KEY,
+                workout_id UUID NOT NULL,
+                exercise_name varchar NOT NULL,
+                sets varchar NOT NULL,
+                reps varchar NOT NULL,
+                notes varchar,
+                created_on TIMESTAMP(3) NOT NULL,
+                updated_on TIMESTAMP(3) NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS goal
+            (
+                id UUID PRIMARY KEY,
+                user_id UUID NOT NULL,
+                current_weight INTEGER,
+                goal_weight INTEGER,
+                progress_status varchar,
+                created_on TIMESTAMP(3) NOT NULL,
+                updated_on TIMESTAMP(3) NOT NULL
+            );
+        ]]>
+    </sql>
+  </changeSet>
+</databaseChangeLog>
