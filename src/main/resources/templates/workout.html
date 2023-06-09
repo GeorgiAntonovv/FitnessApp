@@ -77,8 +77,9 @@
       left: 50%;
       transform: translate(-50%, -50%);
       width: 300px;
+      height: 400px;
       background: #fff;
-      padding: 20px;
+      padding: 30px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
       display: none;
     }
@@ -86,6 +87,20 @@
     .edit-form-container.active {
       display: block;
     }
+    .edit-form-container label {
+      display: inline-block;
+      width: 120px;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    .edit-form-container input,
+    .edit-form-container button {
+      display: inline-block;
+      width: 200px;
+      margin-bottom: 16px;
+    }
+
 
     .overlay {
       position: fixed;
@@ -165,10 +180,18 @@
 <div class="edit-form-container">
   <h2>Edit Exercise</h2>
   <form id="editExerciseForm" method="PATCH">
-    <input type="text" name="exerciseName" placeholder="Exercise Name" required>
-    <input type="text" name="sets" placeholder="Sets" required>
-    <input type="text" name="reps" placeholder="Reps" required>
-    <input type="text" name="notes" placeholder="Notes" required>
+    <label for="exerciseName">Exercise Name:</label>
+    <input type="text" id="exerciseName" name="exerciseName" placeholder="Exercise Name" required>
+
+    <label for="sets">Sets:</label>
+    <input type="text" id="sets" name="sets" placeholder="Sets" required>
+
+    <label for="reps">Reps:</label>
+    <input type="text" id="reps" name="reps" placeholder="Reps" required>
+
+    <label for="notes">Notes:</label>
+    <input type="text" id="notes" name="notes" placeholder="Notes" required>
+
     <button type="submit">Save</button>
   </form>
 </div>
@@ -239,11 +262,18 @@
   function openEditForm(event) {
     const exerciseId = event.target.dataset.exerciseId;
     const exerciseName = event.target.parentNode.querySelector('span').textContent;
+    const sets = event.target.parentNode.querySelector('span:nth-child(2)').textContent;
+    const reps = event.target.parentNode.querySelector('span:nth-child(3)').textContent;
+    const notes = event.target.parentNode.querySelector('span:nth-child(4)').textContent;
     const editForm = document.getElementById('editExerciseForm');
     const overlay = document.querySelector('.overlay');
     const formContainer = document.querySelector('.edit-form-container');
 
     editForm.elements.exerciseName.value = exerciseName;
+    editForm.elements.sets.value = sets;
+    editForm.elements.reps.value = reps;
+    editForm.elements.notes.value = notes;
+
     activeExerciseId = exerciseId;
     overlay.classList.add('active');
     formContainer.classList.add('active');
