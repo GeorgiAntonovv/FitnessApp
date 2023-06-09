@@ -3,17 +3,63 @@
 <head>
   <title>Workout Table</title>
   <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
 
-  nav ul {
-  display: flex;
-  justify-content: space-between;
-  list-style: none;
-  padding: 0;
-}
+    header {
+      background-color: #333;
+      padding: 10px;
+    }
 
-nav ul li {
-  margin-right: 10px;
-}
+    nav ul {
+      display: flex;
+      justify-content: space-between;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    nav ul li {
+      margin-right: 10px;
+    }
+
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    nav ul li a:hover {
+      text-decoration: underline;
+    }
+
+    h1 {
+      margin-top: 30px;
+    }
+
+    button {
+      padding: 8px 12px;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #555;
+    }
+
+    form {
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+
+    input[type="text"] {
+      padding: 6px;
+      margin-right: 5px;
+      border: 1px solid #ddd;
+    }
+
     table {
       border-collapse: collapse;
       width: 100%;
@@ -23,10 +69,6 @@ nav ul li {
       padding: 8px;
       text-align: left;
       border-bottom: 1px solid #ddd;
-    }
-
-    form {
-      display: inline-block;
     }
 
     .edit-form-container {
@@ -89,7 +131,7 @@ nav ul li {
 <!-- Workout Table -->
 <table>
   <tr>
-    <th>Workout ID</th>
+    <th>Workout</th>
     <th>Exercises</th>
     <th>Actions</th>
   </tr>
@@ -105,17 +147,13 @@ nav ul li {
             <input type="text" name="reps" placeholder="Reps" required>
             <input type="text" name="notes" placeholder="Notes" required>
             <button type="submit">Add Exercise</button>
-            <button onclick="openEditForm(event)">Edit</button>
-          </form>
-          <form th:action="/workouts/${workout.workoutId}" method="Post">
-            <button type="submit">Delete</button>
           </form>
         </li>
       </ul>
     </td>
     <td>
       <!-- Delete Workout Form -->
-      <form th:action="/workouts/{workoutId}" method="post">
+      <form th:action="/workouts/{workout.workoutId}/delete" method="POST">
         <button type="submit">Delete Workout</button>
       </form>
     </td>
@@ -136,90 +174,91 @@ nav ul li {
 </div>
 
 <script>
- let activeExerciseId = null;
+  let activeExerciseId = null;
 
-function getWorkouts() {
-  fetch('/workouts')
-    .then(response => response.json())
-    .then(data => {
-      const workouts = data;
-      const workoutTableBody = document.querySelector('table tbody'); // Target the table body
+  function getWorkouts() {
+    fetch('/workouts')
+      .then(response => response.json())
+      .then(data => {
+        const workouts = data;
+        const workoutTableBody = document.querySelector('table tbody'); // Target the table body
 
-      workoutTableBody.innerHTML = ''; // Clear existing rows
+        workoutTableBody.innerHTML = ''; // Clear existing rows
 
-      workouts.forEach(workout => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>${workout.workoutName}</td>
-          <td>
-            <ul>
-              ${getExercisesForWorkout(workout)}
-            </ul>
-            <form action="/exercises/${workout.workoutId}" method="POST">
-              <input type="text" name="exerciseName" placeholder="Exercise Name" required>
-              <input type="text" name="sets" placeholder="Sets" required>
-              <input type="text" name="reps" placeholder="Reps" required>
-              <input type="text" name="notes" placeholder="Notes" required>
-              <button type="submit">Add Exercise</button>
-            </form>
-          </td>
-          <td>
-            <form action="/workouts/${workout.workoutId}" method="POST">
-              <input type="hidden" name="_method" value="DELETE">
-              <button type="submit">Delete Workout</button>
-            </form>
-          </td>
-        `;
-        workoutTableBody.appendChild(row);
-      });
-    })
-    .catch(error => console.error(error));
-}
-
-function getExercisesForWorkout(workout) {
-  const exercises = workout.exercises;
-  if (exercises && exercises.length > 0) {
-    return exercises.map(exercise => `
-      <li>
-        <span>${exercise.exerciseName}</span>
-        <span>${exercise.reps}</span>
-        <span>${exercise.sets}</span>
-        <span>${exercise.notes}</span>
-        <form action="/exercises/${exercise.id}" method="DELETE">
-          <button type="submit">Delete</button>
-        </form>
-      </li>
-    `).join('');
-  } else {
-    return `
-      <li>No exercises added yet.</li>
-    `;
+        workouts.forEach(workout => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${workout.workoutName}</td>
+            <td>
+              <ul>
+                ${getExercisesForWorkout(workout)}
+              </ul>
+              <form action="/exercises/${workout.workoutId}" method="POST">
+                <input type="text" name="exerciseName" placeholder="Exercise Name" required>
+                <input type="text" name="sets" placeholder="Sets" required>
+                <input type="text" name="reps" placeholder="Reps" required>
+                <input type="text" name="notes" placeholder="Notes" required>
+                <button type="submit">Add Exercise</button>
+              </form>
+            </td>
+            <td>
+              <form action="/workouts/${workout.workoutId}" method="POST">
+                <input type="hidden" name="_method" value="DELETE">
+                <button type="submit">Delete Workout</button>
+              </form>
+            </td>
+          `;
+          workoutTableBody.appendChild(row);
+        });
+      })
+      .catch(error => console.error(error));
   }
-}
 
-function openEditForm(event) {
-  const exerciseId = event.target.dataset.exerciseId;
-  const exerciseName = event.target.parentNode.querySelector('span').textContent;
-  const editForm = document.getElementById('editExerciseForm');
-  const overlay = document.querySelector('.overlay');
-  const formContainer = document.querySelector('.edit-form-container');
+  function getExercisesForWorkout(workout) {
+    const exercises = workout.exercises;
+    if (exercises && exercises.length > 0) {
+      return exercises.map(exercise => `
+        <li>
+          <span>${exercise.exerciseName}</span>
+          <span>${exercise.reps}</span>
+          <span>${exercise.sets}</span>
+          <span>${exercise.notes}</span>
+          <button onclick="openEditForm(event)" data-exercise-id="${exercise.id}">Edit</button>
+          <form action="/exercises/${exercise.id}" method="DELETE">
+            <button type="submit">Delete</button>
+          </form>
+        </li>
+      `).join('');
+    } else {
+      return `
+        <li>No exercises added yet.</li>
+      `;
+    }
+  }
 
-  editForm.elements.exerciseName.value = exerciseName;
-  activeExerciseId = exerciseId;
-  overlay.classList.add('active');
-  formContainer.classList.add('active');
-}
+  function openEditForm(event) {
+    const exerciseId = event.target.dataset.exerciseId;
+    const exerciseName = event.target.parentNode.querySelector('span').textContent;
+    const editForm = document.getElementById('editExerciseForm');
+    const overlay = document.querySelector('.overlay');
+    const formContainer = document.querySelector('.edit-form-container');
 
-function closeEditForm() {
-  const overlay = document.querySelector('.overlay');
-  const formContainer = document.querySelector('.edit-form-container');
+    editForm.elements.exerciseName.value = exerciseName;
+    activeExerciseId = exerciseId;
+    overlay.classList.add('active');
+    formContainer.classList.add('active');
+  }
 
-  overlay.classList.remove('active');
-  formContainer.classList.remove('active');
-  activeExerciseId = null;
-}
+  function closeEditForm() {
+    const overlay = document.querySelector('.overlay');
+    const formContainer = document.querySelector('.edit-form-container');
 
-function submitEditForm(event) {
+    overlay.classList.remove('active');
+    formContainer.classList.remove('active');
+    activeExerciseId = null;
+  }
+
+  function submitEditForm(event) {
   event.preventDefault();
   const editForm = document.getElementById('editExerciseForm');
   const exerciseName = editForm.elements.exerciseName.value;
@@ -227,11 +266,46 @@ function submitEditForm(event) {
   const reps = editForm.elements.reps.value;
   const notes = editForm.elements.notes.value;
 
-  // Send the updated exercise data to the server using fetch or an AJAX library
-  // You can use the "activeExerciseId" variable to identify the exercise being edited
+  // Prepare the request payload
+  const payload = {
+    exerciseName: exerciseName,
+    sets: sets,
+    reps: reps,
+    notes: notes
+  };
 
-  closeEditForm();
+  // Make the PATCH request using fetch
+  fetch(`/your-api-endpoint/${activeExerciseId}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload)
+  })
+    .then(response => {
+      if (response.ok) {
+        // Handle successful response
+        console.log('Exercise updated successfully');
+        // You can perform additional actions here, such as reloading the data
+        // or updating the UI to reflect the changes
+
+      } else {
+        // Handle error response
+        return response.json().then(errorData => {
+          throw new Error(errorData.message);
+        });
+      }
+      closeEditForm();
+    })
+    .catch(error => {
+      // Handle network or other error
+      console.error('An error occurred while updating the exercise:', error);
+      // You can display an error message or take appropriate action based on the error
+      alert('Failed to update exercise: ' + error.message);
+      closeEditForm();
+    });
 }
+
 
   document.getElementById('editExerciseForm').addEventListener('submit', submitEditForm);
 </script>
