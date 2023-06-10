@@ -242,12 +242,12 @@
     if (exercises && exercises.length > 0) {
       return exercises.map(exercise => `
         <li>
-          <span>${exercise.exerciseName}</span>
-          <span>${exercise.reps}</span>
-          <span>${exercise.sets}</span>
-          <span>${exercise.notes}</span>
+          <span><strong>Exercise Name:</strong> ${exercise.exerciseName} </span>
+          <span><strong>Reps:</strong> ${exercise.reps} </span>
+          <span><strong>Sets:</strong> ${exercise.sets} </span>
+          <span><strong>Notes:</strong> ${exercise.notes} </span>
           <button onclick="openEditForm(event)" data-exercise-id="${exercise.id}">Edit</button>
-          <form action="/exercises/${exercise.id}" method="DELETE">
+          <form action="/exercises/${exercise.id}/delete" method="POST">
             <button type="submit">Delete</button>
           </form>
         </li>
@@ -261,10 +261,11 @@
 
   function openEditForm(event) {
     const exerciseId = event.target.dataset.exerciseId;
-    const exerciseName = event.target.parentNode.querySelector('span').textContent;
-    const sets = event.target.parentNode.querySelector('span:nth-child(2)').textContent;
-    const reps = event.target.parentNode.querySelector('span:nth-child(3)').textContent;
-    const notes = event.target.parentNode.querySelector('span:nth-child(4)').textContent;
+    const exerciseName = event.target.parentNode.querySelector('span:first-child').textContent.trim().split(':')[1];
+    const sets = event.target.parentNode.querySelector('span:nth-child(2)').textContent.trim().split(':')[1];
+    const reps = event.target.parentNode.querySelector('span:nth-child(3)').textContent.trim().split(':')[1];
+    const notes = event.target.parentNode.querySelector('span:nth-child(4)').textContent.trim().split(':')[1];
+
     const editForm = document.getElementById('editExerciseForm');
     const overlay = document.querySelector('.overlay');
     const formContainer = document.querySelector('.edit-form-container');
@@ -277,6 +278,9 @@
     activeExerciseId = exerciseId;
     overlay.classList.add('active');
     formContainer.classList.add('active');
+
+    editForm.removeEventListener('submit', submitEditForm);
+    editForm.addEventListener('submit', submitEditForm);
   }
 
   function closeEditForm() {
@@ -305,7 +309,7 @@
   };
 
   // Make the PATCH request using fetch
-  fetch(`/your-api-endpoint/${activeExerciseId}`, {
+  fetch(`/exercises/${activeExerciseId}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json'
@@ -335,9 +339,6 @@
       closeEditForm();
     });
 }
-
-
-  document.getElementById('editExerciseForm').addEventListener('submit', submitEditForm);
 </script>
 
 </body>
