@@ -144,7 +144,7 @@
 </form>
 
 <!-- Workout Table -->
-<table>
+<table id="workoutTable">
   <tr>
     <th>Workout</th>
     <th>Exercises</th>
@@ -204,7 +204,7 @@
       .then(response => response.json())
       .then(data => {
         const workouts = data;
-        const workoutTableBody = document.querySelector('table tbody'); // Target the table body
+        const workoutTableBody = document.querySelector('#workoutTable tbody'); // Target the table body
 
         workoutTableBody.innerHTML = ''; // Clear existing rows
 
@@ -243,8 +243,8 @@
       return exercises.map(exercise => `
         <li>
           <span><strong>Exercise Name:</strong> ${exercise.exerciseName} </span>
-          <span><strong>Reps:</strong> ${exercise.reps} </span>
           <span><strong>Sets:</strong> ${exercise.sets} </span>
+          <span><strong>Reps:</strong> ${exercise.reps} </span>
           <span><strong>Notes:</strong> ${exercise.notes} </span>
           <button onclick="openEditForm(event)" data-exercise-id="${exercise.id}">Edit</button>
           <form action="/exercises/${exercise.id}/delete" method="POST">
@@ -300,7 +300,6 @@
   const reps = editForm.elements.reps.value;
   const notes = editForm.elements.notes.value;
 
-  // Prepare the request payload
   const payload = {
     exerciseName: exerciseName,
     sets: sets,
@@ -308,7 +307,6 @@
     notes: notes
   };
 
-  // Make the PATCH request using fetch
   fetch(`/exercises/${activeExerciseId}`, {
     method: 'PATCH',
     headers: {
@@ -318,13 +316,12 @@
   })
     .then(response => {
       if (response.ok) {
-        // Handle successful response
-        console.log('Exercise updated successfully');
-        // You can perform additional actions here, such as reloading the data
-        // or updating the UI to reflect the changes
 
+        console.log('Exercise updated successfully');
+        alert('Exercise updated successfully');
+        getWorkouts();
       } else {
-        // Handle error response
+
         return response.json().then(errorData => {
           throw new Error(errorData.message);
         });
@@ -332,9 +329,8 @@
       closeEditForm();
     })
     .catch(error => {
-      // Handle network or other error
+
       console.error('An error occurred while updating the exercise:', error);
-      // You can display an error message or take appropriate action based on the error
       alert('Failed to update exercise: ' + error.message);
       closeEditForm();
     });
