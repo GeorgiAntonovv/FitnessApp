@@ -125,25 +125,22 @@
       <li><a href="/calculators/">Calculator</a></li>
       <li><a href="/workouts/">Workout</a></li>
       <li><a href="/meals/">Meals</a></li>
-      <li><a href="/goals/">Goal</a></li>
-      <li style="float: right;"><a href="/users/">Login</a></li>
+      <li style="float: right;"><a href="/users/profile">Profile</a></li>
+      <li style="float: right;"><a href="/users/logout/">Logout</a></li>
     </ul>
   </nav>
 </header>
 <h1>Workout Table</h1>
 
-<!-- Get Workouts Form -->
 <form id="getWorkoutsForm">
   <button type="button" onclick="getWorkouts()">Get Workouts</button>
 </form>
 
-<!-- Create Workout Form -->
 <form action="/workouts" method="POST">
   <input type="text" name="workoutName" placeholder="Workout Name" required>
   <button type="submit">Create Workout</button>
 </form>
 
-<!-- Workout Table -->
 <table id="workoutTable">
   <tr>
     <th>Workout</th>
@@ -167,7 +164,6 @@
       </ul>
     </td>
     <td>
-      <!-- Delete Workout Form -->
       <form th:action="/workouts/{workout.workoutId}/delete" method="POST">
         <button type="submit">Delete Workout</button>
       </form>
@@ -175,7 +171,6 @@
   </tr>
 </table>
 
-<!-- Edit Exercise Popup Form -->
 <div class="overlay" onclick="closeEditForm()"></div>
 <div class="edit-form-container">
   <h2>Edit Exercise</h2>
@@ -218,8 +213,8 @@
               </ul>
               <form action="/exercises/${workout.workoutId}" method="POST">
                 <input type="text" name="exerciseName" placeholder="Exercise Name" required>
-                <input type="text" name="sets" placeholder="Sets" required>
-                <input type="text" name="reps" placeholder="Reps" required>
+                <input type="number" name="sets" placeholder="Sets" required>
+                <input type="number" name="reps" placeholder="Reps" required>
                 <input type="text" name="notes" placeholder="Notes" required>
                 <button type="submit">Add Exercise</button>
               </form>

@@ -8,7 +8,6 @@ import lombok.Data;
 @Builder
 public class UpdateExercise {
 
-    private UUID workoutId;
     private String exerciseName;
     private String sets;
     private String reps;

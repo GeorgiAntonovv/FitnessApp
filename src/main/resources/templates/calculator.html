@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      background-color: #333;
+      padding: 10px;
+    }
+
+    nav ul {
+      display: flex;
+      justify-content: space-between;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    nav ul li {
+      margin-right: 10px;
+    }
+
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    nav ul li a:hover {
+      text-decoration: underline;
+    }
+
+    h2 {
+      margin-top: 30px;
+      font-size: 24px;
+    }
+
+    .forms-container {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+
+    form {
+      flex: 0 0 45%;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    form label {
+      display: block;
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    form input[type="number"],
+    form select {
+      width: 100%;
+      padding: 8px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    form input[type="submit"] {
+      background-color: #333;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    form input[type="submit"]:hover {
+      background-color: #555;
+    }
+
+    .results-container {
+      margin-top: 30px;
+    }
+
+    h3 {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 10px;
+    }
+
+    li {
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <nav>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/calculators/">Calculator</a></li>
+      <li><a href="/workouts/">Workout</a></li>
+      <li><a href="/meals/">Meals</a></li>
+      <li style="float: right;"><a href="/users/profile">Profile</a></li>
+      <li style="float: right;"><a href="/users/logout/">Logout</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- BMI Form and Macros Form -->
+<div class="forms-container">
+  <form action="/calculators/bmi" method="get">
+    <h2>Body Mass Index</h2>
+    <label for="bmiAge">Age:</label>
+    <input type="number" id="bmiAge" name="age" required>
+
+    <label for="bmiWeight">Weight (kg):</label>
+    <input type="number" id="bmiWeight" name="weight" required>
+
+    <label for="bmiHeight">Height (cm):</label>
+    <input type="number" id="bmiHeight" name="height" required>
+
+    <input type="submit" value="Calculate BMI">
+    <div class="results-container">
+      <h3>BMI: <span th:text="${bodyFat}"></span></h3>
+    </div>
+  </form>
+
+  <form action="/calculators/macros" method="GET">
+    <h2>Macros</h2>
+    <label for="macrosAge">Age:</label>
+    <input type="number" id="macrosAge" name="age" required>
+
+    <label for="gender">Gender:</label>
+    <select id="gender" name="gender" required>
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+    </select>
+
+    <label for="macrosHeight">Height (cm):</label>
+    <input type="number" id="macrosHeight" name="height" required>
+
+    <label for="macrosWeight">Weight (kg):</label>
+    <input type="number" id="macrosWeight" name="weight" required>
+
+    <label for="activityLevel">Activity Level:</label>
+    <select id="activityLevel" name="activityLevel" required>
+      <option value="1">1 - Sedentary</option>
+      <option value="2">2 - Moderate</option>
+      <option value="3">3 - Active</option>
+    </select>
+
+    <label for="goal">Goal:</label>
+    <select id="goal" name="goal" required>
+      <option value="maintain">Maintain Weight</option>
+      <option value="mildlose">Mild Weight Loss</option>
+      <option value="weightlose">Weight Loss</option>
+      <option value="extremelose">Extreme Weight Loss</option>
+      <option value="mildgain">Mild Weight Gain</option>
+      <option value="weightgain">Weight Gain</option>
+      <option value="extremegain">Extreme Weight Gain</option>
+    </select>
+
+    <input type="submit" value="Calculate Macros">
+    <div class="results-container">
+      <h3>Macros:</h3>
+      <ul>
+        <li>Calories: <span th:text="${calories}"></span></li>
+        <li>Fats: <span th:text="${fats}"></span></li>
+        <li>Carbs: <span th:text="${carbs}"></span></li>
+        <li>Protein: <span th:text="${protein}"></span></li>
+      </ul>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>

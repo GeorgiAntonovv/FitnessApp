@@ -2,21 +2,19 @@ package com.FitnessApp.user.service;
 
 import co.tide.com.fitnessapp.db.jooq.tables.pojos.User;
 import com.FitnessApp.user.model.CreateUser;
-import com.FitnessApp.user.model.UpdateUser;
+import com.FitnessApp.user.model.UpdateProfile;
 import com.FitnessApp.user.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
-
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     public UUID createUser(CreateUser user) {
         return userRepository.insert(user);
@@ -26,12 +24,13 @@ public class UserService {
         return userRepository.findByUsernameAndPassword(username, password);
     }
 
-    public void updateUser(UUID id, UpdateUser user) {
-        userRepository.updateUser(id, user);
+    public User findUserByUserId(UUID userId) {
+        return userRepository.findByUserId(userId).orElse(null);
     }
 
-    public void deleteUser(UUID id) {
-        userRepository.deleteById(id);
+    public void updateUpdateProfile(UUID id, UpdateProfile user) {
+        userRepository.updateProfile(id, user);
     }
+
 }
 

@@ -6,7 +6,6 @@ package co.tide.com.fitnessapp.db.jooq;
 
 import co.tide.com.fitnessapp.db.jooq.tables.Exercise;
 import co.tide.com.fitnessapp.db.jooq.tables.Food;
-import co.tide.com.fitnessapp.db.jooq.tables.Goal;
 import co.tide.com.fitnessapp.db.jooq.tables.Meal;
 import co.tide.com.fitnessapp.db.jooq.tables.User;
 import co.tide.com.fitnessapp.db.jooq.tables.Workout;
@@ -36,11 +35,6 @@ public class Tables {
      * The table <code>food</code>.
      */
     public static final Food FOOD = Food.FOOD;
-
-    /**
-     * The table <code>goal</code>.
-     */
-    public static final Goal GOAL = Goal.GOAL;
 
     /**
      * The table <code>meal</code>.

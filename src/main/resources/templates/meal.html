@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Meal Table</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      background-color: #333;
+      padding: 10px;
+    }
+
+    nav ul {
+      display: flex;
+      justify-content: space-between;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    nav ul li {
+      margin-right: 10px;
+    }
+
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    nav ul li a:hover {
+      text-decoration: underline;
+    }
+
+    h1 {
+      margin-top: 30px;
+    }
+
+    button {
+      padding: 8px 12px;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #555;
+    }
+
+    form {
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+
+    input[type="text"] {
+      padding: 6px;
+      margin-right: 5px;
+      border: 1px solid #ddd;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .edit-form-container {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 300px;
+      height: 500px;
+      background: #fff;
+      padding: 30px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      display: none;
+    }
+
+    .edit-form-container.active {
+      display: block;
+    }
+    .edit-form-container label {
+      display: inline-block;
+      width: 120px;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    .edit-form-container input,
+    .edit-form-container button {
+      display: inline-block;
+      width: 200px;
+      margin-bottom: 16px;
+    }
+
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+    }
+
+    .overlay.active {
+      display: block;
+    }
+
+  </style>
+</head>
+<body>
+<header>
+  <nav>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/calculators/">Calculator</a></li>
+      <li><a href="/workouts/">Workout</a></li>
+      <li><a href="/meals/">Meal</a></li>
+      <li style="float: right;"><a href="/users/profile">Profile</a></li>
+      <li style="float: right;"><a href="/users/logout/">Logout</a></li>
+    </ul>
+  </nav>
+</header>
+<h1>Meal Table</h1>
+
+<form id="getMealsForm">
+  <button type="button" onclick="getMeals()">Get Meals</button>
+</form>
+
+<form action="/meals" method="POST">
+  <input type="text" name="mealName" placeholder="Meal Name" required>
+  <button type="submit">Create Meal</button>
+</form>
+
+<table id="mealTable">
+  <tr>
+    <th>Meal</th>
+    <th>Food Items</th>
+    <th>Actions</th>
+  </tr>
+  <tr th:each="meal : ${meals}">
+    <td th:text="${meal.mealId}"></td>
+    <td>
+      <ul>
+        <li th:each="food : ${meal.foodItems}">
+          <span th:text="${food.foodName}"></span>
+          <form th:action="/foods/${meal.mealId}" method="POST">
+            <input type="text" name="foodName" placeholder="Food Name" required>
+            <input type="number" name="calories" placeholder="Calories" required>
+            <input type="number" name="protein" placeholder="Protein" required>
+            <input type="number" name="fats" placeholder="Fats" required>
+            <input type="number" name="carbs" placeholder="Carbs" required>
+            <button type="submit">Add Food</button>
+          </form>
+        </li>
+      </ul>
+    </td>
+    <td>
+
+      <form th:action="/meals/{meal.mealId}/delete" method="POST">
+        <button type="submit">Delete Meal</button>
+      </form>
+    </td>
+  </tr>
+</table>
+
+<div class="overlay" onclick="closeEditForm()"></div>
+<div class="edit-form-container">
+  <h2>Edit Food</h2>
+  <form id="editFoodForm" method="PATCH">
+    <label for="foodName">Food Name:</label>
+    <input type="text" id="foodName" name="foodName" placeholder="Food Name" required>
+
+    <label for="calories">Calories:</label>
+    <input type="number" id="calories" name="calories" placeholder="Calories" required>
+
+    <label for="protein">Protein:</label>
+    <input type="number" id="protein" name="protein" placeholder="Protein" required>
+
+    <label for="fats">Fats:</label>
+    <input type="number" id="fats" name="fats" placeholder="Fats" required>
+
+    <label for="carbs">Carbs:</label>
+    <input type="number" id="carbs" name="carbs" placeholder="Carbs" required>
+
+    <button type="submit">Save</button>
+  </form>
+</div>
+
+<script>
+  let activeFoodId = null;
+
+  function getMeals() {
+    fetch('/meals')
+      .then(response => response.json())
+      .then(data => {
+        const meals = data;
+        const mealTableBody = document.querySelector('#mealTable tbody'); // Target the table body
+
+        mealTableBody.innerHTML = ''; // Clear existing rows
+
+        meals.forEach(meal => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${meal.mealName}</td>
+            <td>
+              <ul>
+                ${getFoodsForMeal(meal)}
+              </ul>
+              <form action="/foods/${meal.mealId}" method="POST">
+                <input type="text" name="foodName" placeholder="Food Name" required>
+                <input type="number" name="calories" placeholder="Calories" required>
+                <input type="number" name="protein" placeholder="Protein" required>
+                <input type="number" name="fats" placeholder="Fats" required>
+                <input type="number" name="carbs" placeholder="Carbs" required>
+                <button type="submit">Add Food</button>
+              </form>
+            </td>
+            <td>
+              <form action="/meals/${meal.mealId}" method="POST">
+                <input type="hidden" name="_method" value="DELETE">
+                <button type="submit">Delete Meal</button>
+              </form>
+            </td>
+          `;
+          mealTableBody.appendChild(row);
+        });
+      })
+      .catch(error => console.error(error));
+  }
+
+  function getFoodsForMeal(meal) {
+    const foods = meal.foods;
+    if (foods && foods.length > 0) {
+      return foods.map(food => `
+        <li>
+          <span><strong>Food Name:</strong> ${food.foodName} </span>
+          <span><strong>Calories:</strong> ${food.calories} </span>
+          <span><strong>Protein:</strong> ${food.protein} </span>
+          <span><strong>Fats:</strong> ${food.fats} </span>
+          <span><strong>Carbs:</strong> ${food.carbs} </span>
+          <button onclick="openEditForm(event)" data-food-id="${food.id}">Edit</button>
+          <form action="/foods/${food.id}/delete" method="POST">
+            <button type="submit">Delete</button>
+          </form>
+        </li>
+      `).join('');
+    } else {
+      return `
+        <li>No food items added yet.</li>
+      `;
+    }
+  }
+
+  function openEditForm(event) {
+    const foodId = event.target.dataset.foodId;
+    const foodName = event.target.parentNode.querySelector('span:first-child').textContent.trim().split(':')[1];
+    const calories = event.target.parentNode.querySelector('span:nth-child(2)').textContent.trim().split(':')[1];
+    const protein = event.target.parentNode.querySelector('span:nth-child(3)').textContent.trim().split(':')[1];
+    const fats = event.target.parentNode.querySelector('span:nth-child(4)').textContent.trim().split(':')[1];
+    const carbs = event.target.parentNode.querySelector('span:nth-child(5)').textContent.trim().split(':')[1];
+
+    const editForm = document.getElementById('editFoodForm');
+    const overlay = document.querySelector('.overlay');
+    const formContainer = document.querySelector('.edit-form-container');
+
+    editForm.elements.foodName.value = foodName;
+    editForm.elements.calories.value = calories;
+    editForm.elements.protein.value = protein;
+    editForm.elements.fats.value = fats;
+    editForm.elements.carbs.value = carbs;
+
+    activeFoodId = foodId;
+    overlay.classList.add('active');
+    formContainer.classList.add('active');
+
+    editForm.removeEventListener('submit', submitEditForm);
+    editForm.addEventListener('submit', submitEditForm);
+  }
+
+  function closeEditForm() {
+    const overlay = document.querySelector('.overlay');
+    const formContainer = document.querySelector('.edit-form-container');
+
+    overlay.classList.remove('active');
+    formContainer.classList.remove('active');
+    activeFoodId = null;
+  }
+
+  function submitEditForm(event) {
+    event.preventDefault();
+    const editForm = document.getElementById('editFoodForm');
+    const foodName = editForm.elements.foodName.value;
+    const calories = editForm.elements.calories.value;
+    const protein = editForm.elements.protein.value;
+    const fats = editForm.elements.fats.value;
+    const carbs = editForm.elements.carbs.value;
+
+    const data = {
+      foodName: foodName,
+      calories: calories,
+      protein: protein,
+      fats: fats,
+      carbs: carbs
+    };
+
+    fetch(`/foods/${activeFoodId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+      .then(response =>  {
+      if (response.ok) {
+
+        console.log('Food updated successfully');
+        alert('Food updated successfully');
+        getMeals();
+      } else {
+
+        return response.json().then(errorData => {
+          throw new Error(errorData.message);
+        });
+      }
+      closeEditForm();
+    })
+    .catch(error => {
+
+      console.error('An error occurred while updating the food:', error);
+      alert('Failed to update food: ' + error.message);
+      closeEditForm();
+    });
+  }
+
+</script>
+
+</body>
+</html>

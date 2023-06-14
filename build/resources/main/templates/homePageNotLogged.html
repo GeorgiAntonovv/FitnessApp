@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Home Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      background-color: #333;
+      padding: 10px;
+    }
+
+    nav ul {
+      display: flex;
+      justify-content: space-between;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    nav ul li {
+      margin-right: 10px;
+    }
+
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    nav ul li a:hover {
+      text-decoration: underline;
+    }
+
+    h1 {
+      margin-top: 30px;
+    }
+
+    main {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .feature {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 300px;
+      background-color: #f5f5f5;
+      margin: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .feature:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      opacity: 0.5;
+    }
+
+    .feature:nth-child(1):before {
+      background-image: url('workout.jpeg');
+    }
+
+    .feature:nth-child(2):before {
+      background-image: url('nutrition.png');
+    }
+
+    .feature:nth-child(3):before {
+      background-image: url('calculator.jpeg');
+    }
+
+    .feature-content {
+      z-index: 1;
+      text-align: center;
+    }
+
+    .feature h2 {
+      font-size: 24px;
+    }
+
+    .feature p {
+      margin-top: 10px;
+      font-size: 16px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <nav>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/calculators/">Calculator</a></li>
+      <li><a href="/workouts/">Workout</a></li>
+      <li><a href="/meals/">Meals</a></li>
+      <li style="float: right;"><a href="/users/">Login</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <h1>Welcome to My Fitness App</h1>
+
+  <div class="feature">
+    <div class="feature-content">
+      <h2>Workout Tracker</h2>
+      <p>Track your workouts, set goals, and monitor your progress.</p>
+    </div>
+  </div>
+  <img src="nutrition.png" alt="example" width="1440">
+  <img src="templates/nutrition.png" alt="example" width="1440">
+  <div class="feature">
+    <div class="feature-content">
+      <h2>Nutrition Planner</h2>
+      <p>Create and manage personalized meal plans to support your fitness goals.</p>
+    </div>
+  </div>
+
+  <div class="feature">
+    <div class="feature-content">
+      <h2>Calculator</h2>
+      <p>Calculate your body mass index (BMI), macros, and other fitness-related values.</p>
+    </div>
+  </div>
+</main>
+</body>
+</html>

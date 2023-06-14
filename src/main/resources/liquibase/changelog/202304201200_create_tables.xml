@@ -14,6 +14,11 @@
                 first_name varchar(255) NOT NULL,
                 last_name varchar(255) NOT NULL,
                 email varchar(255) NOT NULL,
+                role varchar(255),
+                current_weight INTEGER,
+                goal_weight INTEGER,
+                body_fat numeric,
+                goal_body_fat numeric,
                 created_on TIMESTAMP(3) NOT NULL,
                 updated_on TIMESTAMP(3) NOT NULL
             );
@@ -22,6 +27,7 @@
             (
                 id UUID PRIMARY KEY,
                 user_id UUID NOT NULL,
+                name varchar(255) NOT NULL,
                 created_on TIMESTAMP(3) NOT NULL,
                 updated_on TIMESTAMP(3) NOT NULL
             );
@@ -43,6 +49,7 @@
             (
                 id UUID PRIMARY KEY,
                 user_id UUID NOT NULL,
+                name varchar(255) NOT NULL,
                 created_on TIMESTAMP(3) NOT NULL,
                 updated_on TIMESTAMP(3) NOT NULL
             );
@@ -59,16 +66,6 @@
                 updated_on TIMESTAMP(3) NOT NULL
             );
 
-            CREATE TABLE IF NOT EXISTS goal
-            (
-                id UUID PRIMARY KEY,
-                user_id UUID NOT NULL,
-                current_weight INTEGER,
-                goal_weight INTEGER,
-                progress_status varchar,
-                created_on TIMESTAMP(3) NOT NULL,
-                updated_on TIMESTAMP(3) NOT NULL
-            );
         ]]>
     </sql>
   </changeSet>

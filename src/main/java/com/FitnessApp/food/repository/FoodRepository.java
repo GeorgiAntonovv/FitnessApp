@@ -5,6 +5,7 @@ import com.FitnessApp.food.model.CreateFood;
 import com.FitnessApp.food.model.UpdateFood;
 import java.time.Clock;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -38,17 +39,22 @@ public class FoodRepository {
         return id;
     }
 
-    public Optional<Food> findByMealId(UUID mealId) {
+    public Optional<Food> findById(UUID id) {
+
+        return dslContext.selectFrom(FOOD)
+                .where(FOOD.ID.eq(id))
+                .fetchOptionalInto(Food.class);
+    }
+    public List<Food> findAllByMealId(UUID mealId) {
 
         return dslContext.selectFrom(FOOD)
                 .where(FOOD.MEAL_ID.eq(mealId))
-                .fetchOptionalInto(Food.class);
+                .fetchInto(Food.class);
     }
 
-    public void updateFood(UUID id, UpdateFood food) {
+    public boolean updateFood(UUID id, UpdateFood food) {
 
-        dslContext.update(FOOD)
-                .set(FOOD.MEAL_ID, food.getMealId())
+        int rowsAffected = dslContext.update(FOOD)
                 .set(FOOD.FOOD_NAME, food.getFoodName())
                 .set(FOOD.CALORIES, food.getCalories())
                 .set(FOOD.PROTEIN, food.getProtein())
@@ -57,12 +63,20 @@ public class FoodRepository {
                 .set(FOOD.UPDATED_ON, LocalDateTime.now(clock))
                 .where(FOOD.ID.eq(id))
                 .execute();
+        return rowsAffected > 0;
     }
 
     public void deleteById(UUID id) {
 
         dslContext.deleteFrom(FOOD)
                 .where(FOOD.ID.eq(id))
+                .execute();
+    }
+
+    public void deleteAllByMealId(UUID mealId) {
+
+        dslContext.deleteFrom(FOOD)
+                .where(FOOD.MEAL_ID.eq(mealId))
                 .execute();
     }
 }

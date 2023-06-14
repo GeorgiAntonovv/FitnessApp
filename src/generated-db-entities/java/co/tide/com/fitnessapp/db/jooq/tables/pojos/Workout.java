@@ -29,6 +29,7 @@ public class Workout implements Serializable {
 
     private UUID          id;
     private UUID          userId;
+    private String        name;
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
 
@@ -37,19 +38,22 @@ public class Workout implements Serializable {
     public Workout(Workout value) {
         this.id = value.id;
         this.userId = value.userId;
+        this.name = value.name;
         this.createdOn = value.createdOn;
         this.updatedOn = value.updatedOn;
     }
 
-    @ConstructorProperties({ "id", "userId", "createdOn", "updatedOn" })
+    @ConstructorProperties({ "id", "userId", "name", "createdOn", "updatedOn" })
     public Workout(
         UUID          id,
         UUID          userId,
+        String        name,
         LocalDateTime createdOn,
         LocalDateTime updatedOn
     ) {
         this.id = id;
         this.userId = userId;
+        this.name = name;
         this.createdOn = createdOn;
         this.updatedOn = updatedOn;
     }
@@ -81,6 +85,21 @@ public class Workout implements Serializable {
      */
     public Workout setUserId(UUID userId) {
         this.userId = userId;
+        return this;
+    }
+
+    /**
+     * Getter for <code>workout.name</code>.
+     */
+    public String getName() {
+        return this.name;
+    }
+
+    /**
+     * Setter for <code>workout.name</code>.
+     */
+    public Workout setName(String name) {
+        this.name = name;
         return this;
     }
 
@@ -135,6 +154,12 @@ public class Workout implements Serializable {
         }
         else if (!userId.equals(other.userId))
             return false;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        }
+        else if (!name.equals(other.name))
+            return false;
         if (createdOn == null) {
             if (other.createdOn != null)
                 return false;
@@ -156,6 +181,7 @@ public class Workout implements Serializable {
         int result = 1;
         result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
         result = prime * result + ((this.userId == null) ? 0 : this.userId.hashCode());
+        result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
         result = prime * result + ((this.createdOn == null) ? 0 : this.createdOn.hashCode());
         result = prime * result + ((this.updatedOn == null) ? 0 : this.updatedOn.hashCode());
         return result;
@@ -167,6 +193,7 @@ public class Workout implements Serializable {
 
         sb.append(id);
         sb.append(", ").append(userId);
+        sb.append(", ").append(name);
         sb.append(", ").append(createdOn);
         sb.append(", ").append(updatedOn);
 

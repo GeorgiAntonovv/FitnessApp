@@ -19,7 +19,7 @@ import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row4;
+import org.jooq.Row5;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -67,6 +67,11 @@ public class Workout extends TableImpl<WorkoutRecord> {
      * The column <code>workout.user_id</code>.
      */
     public final TableField<WorkoutRecord, UUID> USER_ID = createField(DSL.name("user_id"), SQLDataType.UUID.nullable(false), this, "");
+
+    /**
+     * The column <code>workout.name</code>.
+     */
+    public final TableField<WorkoutRecord, String> NAME = createField(DSL.name("name"), SQLDataType.VARCHAR(255).nullable(false), this, "");
 
     /**
      * The column <code>workout.created_on</code>.
@@ -167,11 +172,11 @@ public class Workout extends TableImpl<WorkoutRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row4 type methods
+    // Row5 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row4<UUID, UUID, LocalDateTime, LocalDateTime> fieldsRow() {
-        return (Row4) super.fieldsRow();
+    public Row5<UUID, UUID, String, LocalDateTime, LocalDateTime> fieldsRow() {
+        return (Row5) super.fieldsRow();
     }
 }

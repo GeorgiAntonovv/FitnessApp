@@ -6,7 +6,6 @@ package co.tide.com.fitnessapp.db.jooq;
 
 import co.tide.com.fitnessapp.db.jooq.tables.Exercise;
 import co.tide.com.fitnessapp.db.jooq.tables.Food;
-import co.tide.com.fitnessapp.db.jooq.tables.Goal;
 import co.tide.com.fitnessapp.db.jooq.tables.Meal;
 import co.tide.com.fitnessapp.db.jooq.tables.User;
 import co.tide.com.fitnessapp.db.jooq.tables.Workout;
@@ -52,11 +51,6 @@ public class DefaultSchema extends SchemaImpl {
     public final Food FOOD = Food.FOOD;
 
     /**
-     * The table <code>goal</code>.
-     */
-    public final Goal GOAL = Goal.GOAL;
-
-    /**
      * The table <code>meal</code>.
      */
     public final Meal MEAL = Meal.MEAL;
@@ -89,7 +83,6 @@ public class DefaultSchema extends SchemaImpl {
         return Arrays.<Table<?>>asList(
             Exercise.EXERCISE,
             Food.FOOD,
-            Goal.GOAL,
             Meal.MEAL,
             User.USER,
             Workout.WORKOUT);

@@ -8,7 +8,6 @@ import lombok.Data;
 @Builder
 public class UpdateFood {
 
-    private UUID mealId;
     private String foodName;
     private Integer calories;
     private Integer protein;

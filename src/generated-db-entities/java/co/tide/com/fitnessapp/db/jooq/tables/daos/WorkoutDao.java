@@ -89,6 +89,20 @@ public class WorkoutDao extends DAOImpl<WorkoutRecord, co.tide.com.fitnessapp.db
     }
 
     /**
+     * Fetch records that have <code>name BETWEEN lowerInclusive AND upperInclusive</code>
+     */
+    public List<co.tide.com.fitnessapp.db.jooq.tables.pojos.Workout> fetchRangeOfName(String lowerInclusive, String upperInclusive) {
+        return fetchRange(Workout.WORKOUT.NAME, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>name IN (values)</code>
+     */
+    public List<co.tide.com.fitnessapp.db.jooq.tables.pojos.Workout> fetchByName(String... values) {
+        return fetch(Workout.WORKOUT.NAME, values);
+    }
+
+    /**
      * Fetch records that have <code>created_on BETWEEN lowerInclusive AND upperInclusive</code>
      */
     public List<co.tide.com.fitnessapp.db.jooq.tables.pojos.Workout> fetchRangeOfCreatedOn(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {

@@ -6,6 +6,7 @@ package co.tide.com.fitnessapp.db.jooq.tables.pojos;
 
 import java.beans.ConstructorProperties;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -33,6 +34,11 @@ public class User implements Serializable {
     private String        firstName;
     private String        lastName;
     private String        email;
+    private String        role;
+    private Integer       currentWeight;
+    private Integer       goalWeight;
+    private BigDecimal    bodyFat;
+    private BigDecimal    goalBodyFat;
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
 
@@ -45,11 +51,16 @@ public class User implements Serializable {
         this.firstName = value.firstName;
         this.lastName = value.lastName;
         this.email = value.email;
+        this.role = value.role;
+        this.currentWeight = value.currentWeight;
+        this.goalWeight = value.goalWeight;
+        this.bodyFat = value.bodyFat;
+        this.goalBodyFat = value.goalBodyFat;
         this.createdOn = value.createdOn;
         this.updatedOn = value.updatedOn;
     }
 
-    @ConstructorProperties({ "id", "username", "password", "firstName", "lastName", "email", "createdOn", "updatedOn" })
+    @ConstructorProperties({ "id", "username", "password", "firstName", "lastName", "email", "role", "currentWeight", "goalWeight", "bodyFat", "goalBodyFat", "createdOn", "updatedOn" })
     public User(
         UUID          id,
         String        username,
@@ -57,6 +68,11 @@ public class User implements Serializable {
         String        firstName,
         String        lastName,
         String        email,
+        String        role,
+        Integer       currentWeight,
+        Integer       goalWeight,
+        BigDecimal    bodyFat,
+        BigDecimal    goalBodyFat,
         LocalDateTime createdOn,
         LocalDateTime updatedOn
     ) {
@@ -66,6 +82,11 @@ public class User implements Serializable {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.role = role;
+        this.currentWeight = currentWeight;
+        this.goalWeight = goalWeight;
+        this.bodyFat = bodyFat;
+        this.goalBodyFat = goalBodyFat;
         this.createdOn = createdOn;
         this.updatedOn = updatedOn;
     }
@@ -161,6 +182,81 @@ public class User implements Serializable {
     }
 
     /**
+     * Getter for <code>user.role</code>.
+     */
+    public String getRole() {
+        return this.role;
+    }
+
+    /**
+     * Setter for <code>user.role</code>.
+     */
+    public User setRole(String role) {
+        this.role = role;
+        return this;
+    }
+
+    /**
+     * Getter for <code>user.current_weight</code>.
+     */
+    public Integer getCurrentWeight() {
+        return this.currentWeight;
+    }
+
+    /**
+     * Setter for <code>user.current_weight</code>.
+     */
+    public User setCurrentWeight(Integer currentWeight) {
+        this.currentWeight = currentWeight;
+        return this;
+    }
+
+    /**
+     * Getter for <code>user.goal_weight</code>.
+     */
+    public Integer getGoalWeight() {
+        return this.goalWeight;
+    }
+
+    /**
+     * Setter for <code>user.goal_weight</code>.
+     */
+    public User setGoalWeight(Integer goalWeight) {
+        this.goalWeight = goalWeight;
+        return this;
+    }
+
+    /**
+     * Getter for <code>user.body_fat</code>.
+     */
+    public BigDecimal getBodyFat() {
+        return this.bodyFat;
+    }
+
+    /**
+     * Setter for <code>user.body_fat</code>.
+     */
+    public User setBodyFat(BigDecimal bodyFat) {
+        this.bodyFat = bodyFat;
+        return this;
+    }
+
+    /**
+     * Getter for <code>user.goal_body_fat</code>.
+     */
+    public BigDecimal getGoalBodyFat() {
+        return this.goalBodyFat;
+    }
+
+    /**
+     * Setter for <code>user.goal_body_fat</code>.
+     */
+    public User setGoalBodyFat(BigDecimal goalBodyFat) {
+        this.goalBodyFat = goalBodyFat;
+        return this;
+    }
+
+    /**
      * Getter for <code>user.created_on</code>.
      */
     public LocalDateTime getCreatedOn() {
@@ -235,6 +331,36 @@ public class User implements Serializable {
         }
         else if (!email.equals(other.email))
             return false;
+        if (role == null) {
+            if (other.role != null)
+                return false;
+        }
+        else if (!role.equals(other.role))
+            return false;
+        if (currentWeight == null) {
+            if (other.currentWeight != null)
+                return false;
+        }
+        else if (!currentWeight.equals(other.currentWeight))
+            return false;
+        if (goalWeight == null) {
+            if (other.goalWeight != null)
+                return false;
+        }
+        else if (!goalWeight.equals(other.goalWeight))
+            return false;
+        if (bodyFat == null) {
+            if (other.bodyFat != null)
+                return false;
+        }
+        else if (!bodyFat.equals(other.bodyFat))
+            return false;
+        if (goalBodyFat == null) {
+            if (other.goalBodyFat != null)
+                return false;
+        }
+        else if (!goalBodyFat.equals(other.goalBodyFat))
+            return false;
         if (createdOn == null) {
             if (other.createdOn != null)
                 return false;
@@ -260,6 +386,11 @@ public class User implements Serializable {
         result = prime * result + ((this.firstName == null) ? 0 : this.firstName.hashCode());
         result = prime * result + ((this.lastName == null) ? 0 : this.lastName.hashCode());
         result = prime * result + ((this.email == null) ? 0 : this.email.hashCode());
+        result = prime * result + ((this.role == null) ? 0 : this.role.hashCode());
+        result = prime * result + ((this.currentWeight == null) ? 0 : this.currentWeight.hashCode());
+        result = prime * result + ((this.goalWeight == null) ? 0 : this.goalWeight.hashCode());
+        result = prime * result + ((this.bodyFat == null) ? 0 : this.bodyFat.hashCode());
+        result = prime * result + ((this.goalBodyFat == null) ? 0 : this.goalBodyFat.hashCode());
         result = prime * result + ((this.createdOn == null) ? 0 : this.createdOn.hashCode());
         result = prime * result + ((this.updatedOn == null) ? 0 : this.updatedOn.hashCode());
         return result;
@@ -275,6 +406,11 @@ public class User implements Serializable {
         sb.append(", ").append(firstName);
         sb.append(", ").append(lastName);
         sb.append(", ").append(email);
+        sb.append(", ").append(role);
+        sb.append(", ").append(currentWeight);
+        sb.append(", ").append(goalWeight);
+        sb.append(", ").append(bodyFat);
+        sb.append(", ").append(goalBodyFat);
         sb.append(", ").append(createdOn);
         sb.append(", ").append(updatedOn);
 

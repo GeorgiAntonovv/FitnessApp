@@ -4,7 +4,7 @@ import co.tide.com.fitnessapp.db.jooq.tables.pojos.Meal;
 import com.FitnessApp.meal.model.CreateMeal;
 import java.time.Clock;
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
@@ -25,6 +25,7 @@ public class MealRepository {
         dslContext.insertInto(MEAL)
                 .set(MEAL.ID, id)
                 .set(MEAL.USER_ID, meal.getUserId())
+                .set(MEAL.NAME, meal.getName())
                 .set(MEAL.CREATED_ON, LocalDateTime.now(clock))
                 .set(MEAL.UPDATED_ON, LocalDateTime.now(clock))
                 .execute();
@@ -32,11 +33,11 @@ public class MealRepository {
         return id;
     }
 
-    public Optional<Meal> findByUserId(UUID userId) {
+    public List<Meal> findAllByUserId(UUID userId) {
 
         return dslContext.selectFrom(MEAL)
                 .where(MEAL.USER_ID.eq(userId))
-                .fetchOptionalInto(Meal.class);
+                .fetchInto(Meal.class);
     }
 
     public void deleteById(UUID id) {

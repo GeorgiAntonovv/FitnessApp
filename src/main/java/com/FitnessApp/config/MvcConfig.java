@@ -2,6 +2,7 @@ package com.FitnessApp.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring5.SpringTemplateEngine;
@@ -35,6 +36,4 @@ public class MvcConfig implements WebMvcConfigurer {
         resolver.setTemplateMode(TemplateMode.HTML);
         return resolver;
     }
-
-
 }

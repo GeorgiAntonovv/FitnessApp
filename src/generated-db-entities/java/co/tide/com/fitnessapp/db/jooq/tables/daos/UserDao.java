@@ -7,6 +7,7 @@ package co.tide.com.fitnessapp.db.jooq.tables.daos;
 import co.tide.com.fitnessapp.db.jooq.tables.User;
 import co.tide.com.fitnessapp.db.jooq.tables.records.UserRecord;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -142,6 +143,76 @@ public class UserDao extends DAOImpl<UserRecord, co.tide.com.fitnessapp.db.jooq.
      */
     public List<co.tide.com.fitnessapp.db.jooq.tables.pojos.User> fetchByEmail(String... values) {
         return fetch(User.USER.EMAIL, values);
+    }
+
+    /**
+     * Fetch records that have <code>role BETWEEN lowerInclusive AND upperInclusive</code>
+     */
+    public List<co.tide.com.fitnessapp.db.jooq.tables.pojos.User> fetchRangeOfRole(String lowerInclusive, String upperInclusive) {
+        return fetchRange(User.USER.ROLE, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>role IN (values)</code>
+     */
+    public List<co.tide.com.fitnessapp.db.jooq.tables.pojos.User> fetchByRole(String... values) {
+        return fetch(User.USER.ROLE, values);
+    }
+
+    /**
+     * Fetch records that have <code>current_weight BETWEEN lowerInclusive AND upperInclusive</code>
+     */
+    public List<co.tide.com.fitnessapp.db.jooq.tables.pojos.User> fetchRangeOfCurrentWeight(Integer lowerInclusive, Integer upperInclusive) {
+        return fetchRange(User.USER.CURRENT_WEIGHT, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>current_weight IN (values)</code>
+     */
+    public List<co.tide.com.fitnessapp.db.jooq.tables.pojos.User> fetchByCurrentWeight(Integer... values) {
+        return fetch(User.USER.CURRENT_WEIGHT, values);
+    }
+
+    /**
+     * Fetch records that have <code>goal_weight BETWEEN lowerInclusive AND upperInclusive</code>
+     */
+    public List<co.tide.com.fitnessapp.db.jooq.tables.pojos.User> fetchRangeOfGoalWeight(Integer lowerInclusive, Integer upperInclusive) {
+        return fetchRange(User.USER.GOAL_WEIGHT, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>goal_weight IN (values)</code>
+     */
+    public List<co.tide.com.fitnessapp.db.jooq.tables.pojos.User> fetchByGoalWeight(Integer... values) {
+        return fetch(User.USER.GOAL_WEIGHT, values);
+    }
+
+    /**
+     * Fetch records that have <code>body_fat BETWEEN lowerInclusive AND upperInclusive</code>
+     */
+    public List<co.tide.com.fitnessapp.db.jooq.tables.pojos.User> fetchRangeOfBodyFat(BigDecimal lowerInclusive, BigDecimal upperInclusive) {
+        return fetchRange(User.USER.BODY_FAT, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>body_fat IN (values)</code>
+     */
+    public List<co.tide.com.fitnessapp.db.jooq.tables.pojos.User> fetchByBodyFat(BigDecimal... values) {
+        return fetch(User.USER.BODY_FAT, values);
+    }
+
+    /**
+     * Fetch records that have <code>goal_body_fat BETWEEN lowerInclusive AND upperInclusive</code>
+     */
+    public List<co.tide.com.fitnessapp.db.jooq.tables.pojos.User> fetchRangeOfGoalBodyFat(BigDecimal lowerInclusive, BigDecimal upperInclusive) {
+        return fetchRange(User.USER.GOAL_BODY_FAT, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>goal_body_fat IN (values)</code>
+     */
+    public List<co.tide.com.fitnessapp.db.jooq.tables.pojos.User> fetchByGoalBodyFat(BigDecimal... values) {
+        return fetch(User.USER.GOAL_BODY_FAT, values);
     }
 
     /**

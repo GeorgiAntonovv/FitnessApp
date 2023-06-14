@@ -8,6 +8,7 @@ import co.tide.com.fitnessapp.db.jooq.DefaultSchema;
 import co.tide.com.fitnessapp.db.jooq.Keys;
 import co.tide.com.fitnessapp.db.jooq.tables.records.UserRecord;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -19,7 +20,7 @@ import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row8;
+import org.jooq.Row13;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -87,6 +88,31 @@ public class User extends TableImpl<UserRecord> {
      * The column <code>user.email</code>.
      */
     public final TableField<UserRecord, String> EMAIL = createField(DSL.name("email"), SQLDataType.VARCHAR(255).nullable(false), this, "");
+
+    /**
+     * The column <code>user.role</code>.
+     */
+    public final TableField<UserRecord, String> ROLE = createField(DSL.name("role"), SQLDataType.VARCHAR(255), this, "");
+
+    /**
+     * The column <code>user.current_weight</code>.
+     */
+    public final TableField<UserRecord, Integer> CURRENT_WEIGHT = createField(DSL.name("current_weight"), SQLDataType.INTEGER, this, "");
+
+    /**
+     * The column <code>user.goal_weight</code>.
+     */
+    public final TableField<UserRecord, Integer> GOAL_WEIGHT = createField(DSL.name("goal_weight"), SQLDataType.INTEGER, this, "");
+
+    /**
+     * The column <code>user.body_fat</code>.
+     */
+    public final TableField<UserRecord, BigDecimal> BODY_FAT = createField(DSL.name("body_fat"), SQLDataType.NUMERIC, this, "");
+
+    /**
+     * The column <code>user.goal_body_fat</code>.
+     */
+    public final TableField<UserRecord, BigDecimal> GOAL_BODY_FAT = createField(DSL.name("goal_body_fat"), SQLDataType.NUMERIC, this, "");
 
     /**
      * The column <code>user.created_on</code>.
@@ -173,11 +199,11 @@ public class User extends TableImpl<UserRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row8 type methods
+    // Row13 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row8<UUID, String, String, String, String, String, LocalDateTime, LocalDateTime> fieldsRow() {
-        return (Row8) super.fieldsRow();
+    public Row13<UUID, String, String, String, String, String, String, Integer, Integer, BigDecimal, BigDecimal, LocalDateTime, LocalDateTime> fieldsRow() {
+        return (Row13) super.fieldsRow();
     }
 }

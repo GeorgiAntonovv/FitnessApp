@@ -9,4 +9,5 @@ import lombok.Data;
 public class CreateWorkout {
 
     private UUID userId;
+    private String name;
 }

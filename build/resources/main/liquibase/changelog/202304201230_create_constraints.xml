@@ -18,8 +18,6 @@
         ALTER TABLE exercise
         ADD CONSTRAINT fk_exercise_workout FOREIGN KEY (workout_id) REFERENCES workout (id);
 
-        ALTER TABLE goal
-        ADD CONSTRAINT fk_goal_user FOREIGN KEY (user_id) REFERENCES "user" (id);
       ]]>
     </sql>
   </changeSet>

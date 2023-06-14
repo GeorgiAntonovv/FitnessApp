@@ -89,6 +89,20 @@ public class MealDao extends DAOImpl<MealRecord, co.tide.com.fitnessapp.db.jooq.
     }
 
     /**
+     * Fetch records that have <code>name BETWEEN lowerInclusive AND upperInclusive</code>
+     */
+    public List<co.tide.com.fitnessapp.db.jooq.tables.pojos.Meal> fetchRangeOfName(String lowerInclusive, String upperInclusive) {
+        return fetchRange(Meal.MEAL.NAME, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>name IN (values)</code>
+     */
+    public List<co.tide.com.fitnessapp.db.jooq.tables.pojos.Meal> fetchByName(String... values) {
+        return fetch(Meal.MEAL.NAME, values);
+    }
+
+    /**
      * Fetch records that have <code>created_on BETWEEN lowerInclusive AND upperInclusive</code>
      */
     public List<co.tide.com.fitnessapp.db.jooq.tables.pojos.Meal> fetchRangeOfCreatedOn(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {

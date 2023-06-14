@@ -1,7 +1,7 @@
 package com.FitnessApp.calculator.service;
 
-import com.FitnessApp.external.model.bmi.RapidApiBMIResponse;
-import com.FitnessApp.external.model.macros.RapidApiMacrosResponse;
+import com.FitnessApp.calculator.model.bmi.RapidApiBMIResponse;
+import com.FitnessApp.calculator.model.macros.RapidApiMacrosResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.IOException;
@@ -20,7 +20,7 @@ public class CalculatorService {
     public RapidApiBMIResponse getBMI(String age, String weight, String height) throws IOException {
 
         Request request = new Request.Builder()
-                .url(String.format("https://fitness-calculator.p.rapidapi.com/bmi?age=25&weight=65&height=180", age, weight, height))
+                .url(String.format("https://fitness-calculator.p.rapidapi.com/bmi?age=%s&weight=%s&height=%s", age, weight, height))
                 .get()
                 .addHeader("X-RapidAPI-Key", "e6fd97bf6emsh8419606b9e5f71ap1f1af9jsnb726b28bbcce")
                 .addHeader("X-RapidAPI-Host", "fitness-calculator.p.rapidapi.com")
@@ -37,9 +37,6 @@ public class CalculatorService {
 
     public RapidApiMacrosResponse getMacros(String age, String gender, String height, String weight,
             String activityLevel, String goal) throws IOException {
-
-        // activity_level: 1 to 7
-        // goal: maintain, mildlose, weightlose, extremelose, mildgain, weightgain, extremegain
 
         Request request = new Request.Builder()
                 .url(String.format("https://fitness-calculator.p.rapidapi.com/"

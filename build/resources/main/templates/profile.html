@@ -1,14 +1,124 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-  <title>User Profile</title>
-  <link rel="stylesheet" type="text/css" href="styles.css">
+  <title>Profile Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      background-color: #333;
+      padding: 10px;
+    }
+
+    nav ul {
+      display: flex;
+      justify-content: space-between;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    nav ul li {
+      margin-right: 10px;
+    }
+
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    nav ul li a:hover {
+      text-decoration: underline;
+    }
+
+    .profile-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f1f1f1;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .profile-container h2 {
+      margin-top: 0;
+    }
+
+    .profile-container label {
+      display: block;
+      margin-top: 10px;
+    }
+
+    .profile-container input[type="text"],
+    .profile-container input[type="number"] {
+      width: 100%;
+      padding: 5px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+
+    .profile-container input[type="submit"] {
+      background-color: #333;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+
+  </style>
 </head>
 <body>
-<div class="container">
-  <h1>User Profile</h1>
-  <p>Welcome, <span id="username"></span>!</p>
-  <a href="/logout">Logout</a>
-</div>
+<header>
+  <nav>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/calculators/">Calculator</a></li>
+      <li><a href="/workouts/">Workout</a></li>
+      <li><a href="/meals/">Meals</a></li>
+      <li style="float: right;"><a href="/users/">Profile</a></li>
+      <li style="float: right;"><a href="/users/logout/">Logout</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <div class="profile-container">
+    <h2>User Information</h2>
+    <form action="/users/profile/edit" method="post">
+      <label for="firstName">First Name:</label>
+      <input type="text" id="firstName" name="firstName" th:value="${firstName}">
+
+      <label for="lastName">Last Name:</label>
+      <input type="text" id="lastName" name="lastName" th:value="${lastName}">
+
+      <label for="email">Email:</label>
+      <input type="text" id="email" name="email" th:value="${email}">
+
+      <label for="role">Role:</label>
+      <input type="text" id="role" name="role" th:value="${role}" readonly>
+
+      <h2>Goals</h2>
+      <label for="bodyFat">Body Fat:</label>
+      <input type="number" id="bodyFat" name="bodyFat" th:value="${bodyFat}">
+
+      <label for="goalBodyFat">Goal Body Fat:</label>
+      <input type="number" id="goalBodyFat" name="goalBodyFat" th:value="${goalBodyFat}">
+
+      <label for="currentWeight">Current Weight:</label>
+      <input type="number" id="currentWeight" name="currentWeight" th:value="${currentWeight}">
+
+      <label for="goalWeight">Goal Weight:</label>
+      <input type="number" id="goalWeight" name="goalWeight" th:value="${goalWeight}">
+
+      <input type="submit" value="Save Changes">
+    </form>
+  </div>
+</main>
 </body>
 </html>
